@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
         binding.notesRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.notesRecyclerView.adapter = notesAdapter
 
-        binding.addButton.setOnClickListener{
-            val intent = Intent (this, AddNoteActivity::class.java)
+        binding.addButton.setOnClickListener {
+            val intent = Intent(this, AddNoteActivity::class.java)
             startActivity(intent)
 
         }

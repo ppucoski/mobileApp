@@ -19,13 +19,13 @@ class AddNoteActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         db = NoteDatabaseHelper(this)
-        binding.saveButton.setOnClickListener{
+        binding.saveButton.setOnClickListener {
             val title = binding.titleEditText.text.toString()
             val content = binding.contentEditText.text.toString()
-            val note = Note(0,title,content)
+            val note = Note(0, title, content)
             db.insertNote(note)
             finish()
-            Toast.makeText(this,"Note is saved, good job", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Note is saved, good job", Toast.LENGTH_SHORT).show()
         }
 
 

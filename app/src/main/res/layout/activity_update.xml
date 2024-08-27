@@ -13,15 +13,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp"
-        tools:context=".AddNoteActivity">
+        tools:context=".UpdateActivity">
 
         <TextView
-            android:id="@+id/addNoteHeading"
+            android:id="@+id/editNoteHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="16dp"
-            android:text="Add your desired note:"
+            android:layout_marginTop="-3dp"
+            android:text="Change your note"
             android:textColor="@color/orange"
             android:textSize="24sp">
 
@@ -29,10 +29,10 @@
         </TextView>
 
         <ImageView
-            android:id="@+id/saveButton"
+            android:id="@+id/updateSaveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/addNoteHeading"
+            android:layout_alignTop="@id/editNoteHeading"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="6dp"
             android:src="@drawable/baseline_done_24">
@@ -40,10 +40,10 @@
         </ImageView>
 
         <EditText
-            android:id="@+id/titleEditText"
+            android:id="@+id/updateTitleEditText"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_below="@id/addNoteHeading"
+            android:layout_below="@id/editNoteHeading"
             android:layout_marginTop="16dp"
             android:background="@drawable/orange_border"
             android:hint="Enter the title of your note"
@@ -54,10 +54,10 @@
         </EditText>
 
         <EditText
-            android:id="@+id/contentEditText"
+            android:id="@+id/updatecontentEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/titleEditText"
+            android:layout_below="@id/updateTitleEditText"
             android:layout_marginTop="12dp"
             android:background="@drawable/orange_border"
             android:gravity="top"

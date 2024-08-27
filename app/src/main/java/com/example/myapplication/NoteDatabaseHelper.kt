@@ -5,8 +5,9 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class NoteDatabaseHelper(context: Context) : SQLiteOpenHelper (context, DATABASE_NAME, null, DATABASE_VERSION) {
-    companion object{
+class NoteDatabaseHelper(context: Context) :
+    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+    companion object {
         private const val DATABASE_NAME = "notesapp.db"
         private const val DATABASE_VERSION = 1
         private const val TABLE_NAME = "allnotes"
@@ -17,7 +18,8 @@ class NoteDatabaseHelper(context: Context) : SQLiteOpenHelper (context, DATABASE
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val createTableQuery = "CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_TITLE TEXT, $COLUMN_CONTENT TEXT)"
+        val createTableQuery =
+            "CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_TITLE TEXT, $COLUMN_CONTENT TEXT)"
         db?.execSQL(createTableQuery)
     }
 
@@ -26,9 +28,10 @@ class NoteDatabaseHelper(context: Context) : SQLiteOpenHelper (context, DATABASE
         db?.execSQL(dropTableQuery)
         onCreate(db)
     }
-    fun insertNote(note: Note){
+
+    fun insertNote(note: Note) {
         val db = writableDatabase
-        val values= ContentValues().apply {
+        val values = ContentValues().apply {
             put(COLUMN_TITLE, note.title)
             put(COLUMN_CONTENT, note.content)
         }
@@ -36,23 +39,60 @@ class NoteDatabaseHelper(context: Context) : SQLiteOpenHelper (context, DATABASE
         db.close()
     }
 
-    fun getAllNotes(): List<Note>{
+    fun getAllNotes(): List<Note> {
         val notesList = mutableListOf<Note>()
         val db = readableDatabase
         val query = "SELECT  * FROM  $TABLE_NAME"
 
         val cursor = db.rawQuery(query, null)
 
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             val id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID))
             val title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE))
             val content = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT))
 
-            val note =  Note(id,title, content)
+            val note = Note(id, title, content)
             notesList.add(note)
         }
         cursor.close()
         db.close()
         return notesList
     }
+
+    fun updateNoteFunction(note: Note) {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_TITLE, note.title)
+            put(COLUMN_CONTENT, note.content)
+        }
+        val whereCluase = "$COLUMN_ID = ?"
+        val whereArgs = arrayOf(note.id.toString())
+        db.update(TABLE_NAME, values, whereCluase, whereArgs)
+        db.close()
+    }
+
+    fun getNodeByIdFunction(noteId: Int): Note {
+        val db = readableDatabase
+        val query = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID = $noteId"
+        val cursor = db.rawQuery(query, null)
+        cursor.moveToFirst()
+
+        val id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID))
+        val title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE))
+        val content = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT))
+
+        cursor.close()
+        db.close()
+        return Note(id, title, content)
+
+    }
+
+    fun deleteNote(noteId: Int) {
+        val db = writableDatabase
+        val whereClasue = "$COLUMN_ID = ?"
+        val whereArgs = arrayOf(noteId.toString())
+        db.delete(TABLE_NAME,whereClasue,whereArgs)
+        db.close()
+    }
+
 }
